@@ -1,0 +1,160 @@
+.drag-sort__wrapper {
+  position: relative;
+}
+
+.drag-sort__container {
+  --item-min-height: 5rem;
+
+  background-color: white;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drag-sort__drop-target {
+  height: var(--item-min-height);
+  position: relative;
+}
+
+.drag-sort__drop-target:first-child::before,
+.drag-sort__drop-target::after {
+  content: "";
+  display: block;
+  height: 1px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.drag-sort__drop-target:first-child::before {
+  background-color: var(--color-pattens-blue);
+  top: 1px;
+}
+
+.drag-sort__drop-target::after {
+  background-color: var(--color-pattens-blue);
+  bottom: 1px;
+}
+
+.drag-sort__drop-target--over {
+  background-color: var(--color-ghost-white);
+}
+
+.drag-sort__drop-target:last-child::after {
+  display: inline;
+}
+
+.drag-sort__sort-item {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  gap: 1.25rem;
+  height: var(--item-min-height);
+  justify-content: space-between;
+  padding: 0;
+  position: relative;
+  z-index: 0;
+}
+
+.drag-sort__sort-item:focus {
+  z-index: 2;
+}
+
+.drag-sort__sort-item--moving,
+.drag-sort__sort-item--ghost {
+  background: white;
+  border: 1px solid var(--color-ghost-white);
+  box-shadow: 5px 5px 5px var(--color-blackcurrant-transparent);
+  z-index: 2;
+}
+
+.drag-sort__sort-item--ghost {
+  pointer-events: none;
+  position: fixed;
+  -webkit-user-drag: none;
+  visibility: hidden;
+}
+
+.drag-sort__sort-item--moving::before,
+.drag-sort__sort-item--ghost::before {
+  box-shadow: -1px -1px 0 var(--color-ghost-white), 1px 1px 0 var(--color-ghost-white);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.drag-sort__sort-item__handle {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: grab;
+  height: 15px;
+  width: 24px;
+}
+
+.drag-sort__sort-item__handle--drag {
+  background: linear-gradient(
+    to bottom,
+    var(--color-scarpa-flow) 0,
+    var(--color-scarpa-flow) 1px,
+    transparent 1px,
+    transparent 7px,
+    var(--color-scarpa-flow) 7px,
+    var(--color-scarpa-flow) 8px,
+    transparent 8px,
+    transparent 14px,
+    var(--color-scarpa-flow) 14px,
+    var(--color-scarpa-flow) 15px
+  );
+}
+
+.drag-sort__sort-item__handle--up,
+.drag-sort__sort-item__handle--down {
+  background: url("assets/images/icons/chevronDown.svg") no-repeat center;
+  background-size: 28px;
+  color: black;
+  display: none;
+  height: 24px;
+  right: 0.5rem;
+}
+
+.drag-sort__sort-item__handle--up {
+  transform: rotate(180deg);
+}
+
+.drag-sort__sort-item--dragging .drag-sort__sort-item__handle {
+  cursor: grabbing;
+}
+
+.drag-sort__sort-item__contents {
+  color: var(--color-uva-black);
+  font-size: 1rem;
+  line-height: 24px;
+  padding: 1rem 0;
+}
+
+.drag-sort__sort-item__button-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/** Target touch enabled devices and screen readers */
+.drag-sort__sort-item__button-container[data-touch="true"] {
+  justify-content: space-between;
+}
+
+.drag-sort__sort-item__button-container[data-touch="true"] .drag-sort__sort-item__handle--drag {
+  display: none;
+}
+
+.drag-sort__sort-item__button-container[data-touch="true"] .drag-sort__sort-item__handle--up,
+.drag-sort__sort-item__button-container[data-touch="true"] .drag-sort__sort-item__handle--down {
+  display: block;
+}

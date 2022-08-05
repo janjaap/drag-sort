@@ -1,0 +1,14 @@
+{
+  "printWidth": 120,
+  "proseWrap": "always",
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": ["*.yml", "*.yaml", "*.css"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
+}
