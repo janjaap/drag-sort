@@ -2,7 +2,7 @@ import { cloneElement, useEffect, useRef, useState } from 'react';
 
 import type { DragEvent } from 'react';
 
-import styles from './DragSort.module.css';
+import * as styles from './DragSort.module.css';
 import { useDragSort } from './DragSortProvider';
 
 export type OnSort = (indices: number[]) => void;
