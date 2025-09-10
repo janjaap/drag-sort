@@ -24,21 +24,21 @@
   left: 0;
   position: absolute;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
 }
 
 .drag-sort__drop-target:first-child::before {
-  background-color: var(--color-pattens-blue);
+  background-color: var(--color-item-border);
   top: 1px;
 }
 
 .drag-sort__drop-target::after {
-  background-color: var(--color-pattens-blue);
+  background-color: var(--color-item-border);
   bottom: 1px;
 }
 
 .drag-sort__drop-target--over {
-  background-color: var(--color-ghost-white);
+  background-color: var(--color-drop-target);
 }
 
 .drag-sort__drop-target:last-child::after {
@@ -64,8 +64,8 @@
 .drag-sort__sort-item--moving,
 .drag-sort__sort-item--ghost {
   background: white;
-  border: 1px solid var(--color-ghost-white);
-  box-shadow: 5px 5px 5px var(--color-blackcurrant-transparent);
+  border: 1px solid var(--color-drop-target);
+  box-shadow: 5px 5px 5px var(--color-drag-shadow);
   z-index: 2;
 }
 
@@ -78,7 +78,7 @@
 
 .drag-sort__sort-item--moving::before,
 .drag-sort__sort-item--ghost::before {
-  box-shadow: -1px -1px 0 var(--color-ghost-white), 1px 1px 0 var(--color-ghost-white);
+  box-shadow: -1px -1px 0 var(--color-drop-target), 1px 1px 0 var(--color-drop-target);
   content: "";
   height: 100%;
   left: 0;
@@ -89,7 +89,7 @@
 }
 
 .drag-sort__sort-item__handle {
-  appearance: none;
+  all: unset;
   background: none;
   border: 0;
   cursor: grab;
@@ -100,16 +100,16 @@
 .drag-sort__sort-item__handle--drag {
   background: linear-gradient(
     to bottom,
-    var(--color-scarpa-flow) 0,
-    var(--color-scarpa-flow) 1px,
+    var(--color-drag-handle) 0,
+    var(--color-drag-handle) 1px,
     transparent 1px,
     transparent 7px,
-    var(--color-scarpa-flow) 7px,
-    var(--color-scarpa-flow) 8px,
+    var(--color-drag-handle) 7px,
+    var(--color-drag-handle) 8px,
     transparent 8px,
     transparent 14px,
-    var(--color-scarpa-flow) 14px,
-    var(--color-scarpa-flow) 15px
+    var(--color-drag-handle) 14px,
+    var(--color-drag-handle) 15px
   );
 }
 
@@ -117,7 +117,7 @@
 .drag-sort__sort-item__handle--down {
   background: url("./assets/chevronDown.svg") no-repeat center;
   background-size: 28px;
-  color: black;
+  color: var(--color-drag-handle);
   display: none;
   height: 24px;
   right: 0.5rem;
@@ -132,7 +132,7 @@
 }
 
 .drag-sort__sort-item__contents {
-  color: var(--color-uva-black);
+  color: var(--color-contents);
   font-size: 1rem;
   line-height: 24px;
   padding: 1rem 0;

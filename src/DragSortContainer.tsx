@@ -2,7 +2,7 @@ import { cloneElement, useEffect, useRef, useState } from 'react';
 
 import type { DragEvent } from 'react';
 
-import * as styles from './DragSort.module.css';
+import styles from './dragSort.module.css';
 import { useDragSort } from './DragSortProvider';
 
 export type OnSort = (indices: number[]) => void;
@@ -31,6 +31,7 @@ export function DragSortContainer({ onSort }: Props) {
   }
 
   function handleDrop(event: DragEvent<HTMLLIElement>) {
+    console.log('drop');
     const targetIndex = getTargetIndex(event);
 
     if (targetIndex === undefined) return;
@@ -41,6 +42,7 @@ export function DragSortContainer({ onSort }: Props) {
   }
 
   function handleDragOver(event: DragEvent<HTMLLIElement>) {
+    console.log('drag over');
     // Prevent default to allow drop
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
@@ -71,12 +73,14 @@ export function DragSortContainer({ onSort }: Props) {
   }
 
   function handleDragEnter(event: DragEvent<HTMLLIElement>) {
+    console.log('drag enter');
     event.preventDefault();
 
     setDragOver(true);
   }
 
   function handleDragLeave() {
+    console.log('drag leave');
     setDragOver(false);
   }
 
@@ -120,7 +124,6 @@ export function DragSortContainer({ onSort }: Props) {
         {sortableItems.map((child, index) => (
           <li
             className={`${styles['drag-sort__drop-target']} ${dragOver ? styles['drag-sort__drop-target--over'] : ''}`}
-            draggable={false}
             key={index}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}

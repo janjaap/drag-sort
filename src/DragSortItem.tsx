@@ -1,8 +1,8 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import type { ReactNode, DragEvent, KeyboardEvent as ReactKeyboardEvent, MouseEvent } from 'react';
+import type { DragEvent, MouseEvent, KeyboardEvent as ReactKeyboardEvent, ReactNode } from 'react';
 
-import styles from './DragSort.module.css';
+import styles from './dragSort.module.css';
 import { useDragSort } from './DragSortProvider';
 
 export interface DragSortItemProps {
@@ -11,14 +11,14 @@ export interface DragSortItemProps {
 }
 
 const ACCESS_KEYS = ['Space', 'ArrowDown', 'ArrowUp'];
-const supportsTouch = 'ontouchstart' in global.document.documentElement;
+const supportsTouch = 'ontouchstart' in globalThis.document.documentElement;
 const dragImage = new Image(0, 0);
 
 dragImage.src =
   // 1px transparent png
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
 
-function DragSortItemComponent({ children, index }: DragSortItemProps) {
+export const DragSortItem = ({ children, index }: DragSortItemProps) => {
   const {
     clone,
     dragEnd,
@@ -38,7 +38,7 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
 
   useEffect(() => {
     if (!itemRef.current) return;
-    if (global.document.activeElement === itemRef.current) return;
+    if (globalThis.document.activeElement === itemRef.current) return;
 
     if (index === draggingTarget && draggingTarget === draggingSource) {
       // Manually setting focus after an item has been moved with the keyboard; focus is lost after rerender
@@ -50,6 +50,7 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
   }, [index, draggingTarget, draggingSource, setDraggingSource]);
 
   function handleDragStart(event: DragEvent<HTMLDivElement>) {
+    console.log('drag start');
     event.stopPropagation();
 
     event.dataTransfer.effectAllowed = 'move';
@@ -68,6 +69,7 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
   }
 
   function handleDragEnd() {
+    console.log('drag end');
     if (clone) document.body.removeChild(clone);
 
     setGrabbing(false);
@@ -108,6 +110,7 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
   }
 
   function handleMove(event: MouseEvent<HTMLButtonElement>) {
+    console.log('drag move');
     event.preventDefault();
 
     if (!hasIndex) return;
@@ -123,9 +126,6 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
   return (
     <div
       className={`${styles['drag-sort__sort-item']} ${grabbing ? styles['drag-sort__sort-item--moving'] : ''}`}
-      draggable
-      onDragEnd={handleDragEnd}
-      onDragStart={handleDragStart}
       onKeyUpCapture={handleKeyUp}
       ref={itemRef}
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -133,7 +133,12 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
     >
       <div className={styles['drag-sort__sort-item__contents']}>{children}</div>
 
-      <div className={styles['drag-sort__sort-item__button-container']} data-touch={supportsTouch}>
+      <div draggable
+        className={styles['drag-sort__sort-item__button-container']}
+        data-touch={supportsTouch}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+      >
         <span className={`${styles['drag-sort__sort-item__handle']} ${styles['drag-sort__sort-item__handle--drag']}`}>
           <span className="visually-hidden">Drag</span>
         </span>
@@ -165,5 +170,3 @@ function DragSortItemComponent({ children, index }: DragSortItemProps) {
     </div>
   );
 }
-
-export const DragSortItem = memo(DragSortItemComponent);
